@@ -1,0 +1,29 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.btn {
+  padding: 10px 20px;
+  color: #fff;
+  background: #2c3e50;
+  border: 1px solid #2c3e50;
+  outline: 0;
+  -webkit-appearance: none;
+  text-transform: uppercase;
+}
+
+.btn:hover {
+  cursor: pointer;
+}
+
+a {
+  color: #2c3e50;
+  font-size: 16px;
+}

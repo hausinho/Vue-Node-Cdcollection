@@ -116,17 +116,17 @@ router.put('/:albumId', (req, res, next) => {
 
     post.artist = req.body.artist
     post.album = req.body.album
-    post.save(function (error) {
+    post.save((error) => {
       if (error) {
         console.log(error)
       }
-      res.send({
-        success: true,
+      res.status(200).json({
+        message: 'Album updated',
         updatedAlbum: {
           artist: post.artist,
           album: post.album
         }
-      })
+      });      
     })
   }) 
 })

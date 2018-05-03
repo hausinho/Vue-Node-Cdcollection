@@ -6,7 +6,7 @@
             <h2>Edit CD</h2>
         </div>
         <div class="modal-confirmation" v-if="showUpdateConfirmation">
-          <h2>{{cd.artist}} - {{cd.album}}</h2>
+          <h2>{{cd[1].artist}} - {{cd[1].album}}</h2>
           <p>has been updated!</p>
           <button @click="$emit('update:modal')" class="btn">Close</button>
         </div>
@@ -34,7 +34,9 @@
 
 <script>
 import { eventBus } from '../main';
+import AlbumService from '@/services/AlbumService'
 export default {
+    name: 'EditAlbum',
     props: {
         modal:{
             default:false
@@ -53,26 +55,43 @@ export default {
     }
   },
   methods: {
-    updateCd(){
-        if(!this.albumObject.artist || !this.albumObject.album) {
-          alert('please fill out required fields')
-        } else {
-          let editCd = {
-            artist: this.albumObject.artist,
-            album: this.albumObject.album
-          }
-          this.$http.put('http://localhost/cdcollection/public/api/cds/update/'+ this.albumObject.id, editCd)
-            .then(function(response){
-              eventBus.$emit('cd updated', editCd)
-              this.cd.artist = editCd.artist;
-              this.cd.album = editCd.album;
-            }).then(() => {
-              this.showUpdateConfirmation = true
-            }).catch(err => {
-              console.log('Something went wrong!!!')
-            });          
-        } 
+    async getSingleAlbum() {
+      const response = await AlbumService.getAlbum({
+        id: this.albumObject.id
+      })
+      this.artist = response.data.artist
+      this.album = response.data.album
+    },
+
+    async updateCd() {
+      if(!this.albumObject.artist || !this.albumObject.album) {
+        alert('please fill out required fields')
+      } else {      
+        await AlbumService.updateAlbum({
+          _id: this.albumObject.id,
+          artist: this.albumObject.artist,
+          album: this.albumObject.album
+        })
+        .then(response => {
+            let editCd = {
+              artist: response.data.updatedAlbum.artist,
+              album: response.data.updatedAlbum.album
+            }    
+            eventBus.$emit('cd updated', editCd)
+            this.cd.push(editCd)
+          
+        })
+        .then(() => {
+            this.showUpdateConfirmation = true
+        })
+        .catch(err => {
+            console.log('Something went wrong!!!')
+        });
+      }
     }
+  },
+  created() {
+    this.getSingleAlbum();
   }
 
 }

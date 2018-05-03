@@ -86,25 +86,50 @@ router.get("/:albumId", (req, res, next) => {
 });
 
 // UPDATE ALBUM
-router.patch('/:albumId', (req, res, next) => {
-  const id = req.params.albumId;
-  const updateOpt = {};
-  for (const opt of req.body) {
-    updateOpt[opt.propName] = opt.value
-  }
-  Album.update({_id: id}, {$set: updateOpt })
-  .exec()
-  .then(result => {
-    res.status(200).json({
-        message: 'Album updated'
-    });
-  })
-  .catch(err => {
-    res.status(500).json({
-      error: err
-    });
-  });  
-});
+// router.put('/:albumId', (req, res, next) => {
+//   const id = req.params.albumId;
+//   console.log('ID: ', req.params)
+//   const updateOpt = {};
+//   for (const opt of req.body) {
+//     updateOpt[opt.propName] = opt.value
+//   }
+// console.log('UPDATE: ', updateOpt)
+
+//   Album.update({_id: id}, {$set: updateOpt })
+//   .exec()
+//   .then(result => {
+//     res.status(200).json({
+//         message: 'Album updated'
+//     });
+//   })
+//   .catch(err => {
+//     res.status(500).json({
+//       error: err
+//     });
+//   });  
+// });
+
+// UPDATE ALBUM
+router.put('/:albumId', (req, res, next) => {
+  Album.findById(req.params.albumId, 'artist album', function (error, post) {
+    if (error) { console.error(error); }
+
+    post.artist = req.body.artist
+    post.album = req.body.album
+    post.save(function (error) {
+      if (error) {
+        console.log(error)
+      }
+      res.send({
+        success: true,
+        updatedAlbum: {
+          artist: post.artist,
+          album: post.album
+        }
+      })
+    })
+  }) 
+})
 
 // DELETE ALBUM
 router.delete('/:albumId', (req, res, next) => {

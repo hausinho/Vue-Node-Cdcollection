@@ -26,11 +26,11 @@
         :list="cds" 
         :per="20">
         <li v-for="(cd, index) in paginated('cds')" :key="index">
-          <div class="cd-item-container" :data-id="cd.ID">
+          <div class="cd-item-container" :data-id="cd._id">
             <span>{{cd.artist}} - {{cd.album}}</span>
-            <div v-if="isLoggedIn" class="cd-item-actions">
-              <a href="#" @click.prevent="showDeleteModal({id: cd.ID, artist: cd.artist, album: cd.album})" :id="cd.ID" class="delete">Delete</a>
-              <a href="#" @click.prevent="showUpdateModal({id: cd.ID, artist: cd.artist, album: cd.album})" :id="cd.ID" class="edit">Update</a>
+            <div class="cd-item-actions">
+              <a href="#" @click.prevent="showDeleteModal({id: cd._id, artist: cd.artist, album: cd.album})" :id="cd._id" class="delete">Delete</a>
+              <a href="#" @click.prevent="showUpdateModal({id: cd._id, artist: cd.artist, album: cd.album})" :id="cd._id" class="edit">Update</a>
             </div>
           </div>
         </li>

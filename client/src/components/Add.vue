@@ -76,15 +76,12 @@ export default {
               artist: response.data.createdAlbum.artist,
               album: response.data.createdAlbum.album,
             };
-            console.log('NEW: ', newAlbum)
             
             eventBus.$emit('cd added', newAlbum);
 
             // self.cd.artist = newAlbum.artist;
             // self.cd.album = newAlbum.album;
             this.cd.push(newAlbum)
-
-            console.log('CD: ', this.cd)
             
           }).then(() => {
             this.showConfirmation = true;

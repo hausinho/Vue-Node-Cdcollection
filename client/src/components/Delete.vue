@@ -25,6 +25,7 @@
 
 <script>
 import { eventBus } from '../main';
+import AlbumService from '@/services/AlbumService'
 export default {
     props: {
         modal:{
@@ -40,8 +41,8 @@ export default {
     }
   },
   methods: {
-    deleteAlbum(id){
-      this.$http.delete('http://localhost/cdcollection/public/api/cds/delete/'+id)
+    async deleteAlbum (id) {
+      await AlbumService.deleteAlbum(id)
         .then(function(response){
           eventBus.$emit('cd removed', response)
         })
@@ -51,9 +52,8 @@ export default {
         .catch(err => {
           console.log('Something wen wrong!!!')
         });
-    }
+    }    
   }
-
 }
 </script>
 

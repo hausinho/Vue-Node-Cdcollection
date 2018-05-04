@@ -50,22 +50,6 @@ export default {
       if(!this.cd.artist || !this.cd.album) {
         alert('please fill out required fields')
       } else {
-        // let newCd = {
-        //   artist: this.cd.artist,
-        //   album: this.cd.album
-        // }
-
-        // this.$http.post('http://localhost/cdcollection/public/api/cds/add', newCd)
-        //   .then(response => {
-        //     eventBus.$emit('cd added', newCd)
-        //     this.cd.artist = newCd.artist;
-        //     this.cd.album = newCd.album;
-              
-        //   }).then(() => {
-        //     this.showConfirmation = true;
-        //   }).catch(err => {
-        //     console.log('Something went wrong!!!')
-        //   })
 
         await AlbumService.addAlbum({
             artist: this.cd.artist,
@@ -79,8 +63,6 @@ export default {
             
             eventBus.$emit('cd added', newAlbum);
 
-            // self.cd.artist = newAlbum.artist;
-            // self.cd.album = newAlbum.album;
             this.cd.push(newAlbum)
             
           }).then(() => {
@@ -96,9 +78,7 @@ export default {
       }
     },
     resetForm() {
-      var self = this; //you need this because *this* will refer to Object.keys below`
-
-      //Iterate through each object field, key is name of the object field`
+      var self = this;
       Object.keys(this.cd).forEach(function(key,index) {
         self.cd[key] = '';
       });

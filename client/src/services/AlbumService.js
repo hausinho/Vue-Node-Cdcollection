@@ -15,5 +15,9 @@ export default {
   
   getAlbum (params) {
     return Api().get('albums/' + params.id)
+  },
+
+  deleteAlbum (id) {
+    return Api().delete('albums/' + id)
   }  
 }

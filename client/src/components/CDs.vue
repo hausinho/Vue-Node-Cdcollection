@@ -77,24 +77,13 @@ export default {
     updateModal: Edit
   },
   methods: { 
+
+    // get all albums
     async getAlbums () {
       const response = await AlbumService.fetchAlbums()
       this.cds = response.data.albums
       this.cdCount = response.data.count
     },    
-    // get all cds
-    // fetchAll: _.debounce(function() {
-    //   let self = this;
-    //   self.$http.get('http://localhost:3000/albums')
-    //   .then(response => {
-    //     console.log('CDS: ', response)
-    //     // self.cds = response.body
-    //     // self.cdCount = response.body.length
-    //   }).catch(err => {
-    //     console.log('error')
-    //   })
-    // }),
-
     // show the add cd form
     showAddForm() {
       this.showAdd = !this.showAdd

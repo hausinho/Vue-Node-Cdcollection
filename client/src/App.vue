@@ -5,8 +5,26 @@
 </template>
 
 <script>
+  import { mapGetters } from 'vuex'
   export default {
-    name: 'App'
+    name: 'App',
+    computed: {
+      ...mapGetters({ currentUser: 'currentUser' })
+    },
+    created () {
+      this.checkCurrentLogin()
+    },
+    updated () {
+      this.checkCurrentLogin()
+    },
+    methods: {
+      checkCurrentLogin () {
+        if (!this.currentUser) {
+
+          this.$router.push('/' + this.$route.path)
+        }
+      }
+    }    
   }
 </script>
 

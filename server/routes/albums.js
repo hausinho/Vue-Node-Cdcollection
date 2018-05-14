@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
+const authenticate = require('../auth/authenticate');
 
 const Album = require('../models/album');
 
@@ -33,7 +34,7 @@ router.get('/', (req, res, next) => {
 
 
 // ADD NEW ALBUM
-router.post('/', (req, res, next) => {
+router.post('/', authenticate, (req, res, next) => {
   if (!req.body.artist || !req.body.album) {
     res.json({success: false, message: 'Please enter artist and album.'});
 } else {  
@@ -110,7 +111,7 @@ router.get("/:albumId", (req, res, next) => {
 // });
 
 // UPDATE ALBUM
-router.put('/:albumId', (req, res, next) => {
+router.put('/:albumId', authenticate, (req, res, next) => {
   Album.findById(req.params.albumId, 'artist album', function (error, post) {
     if (error) { console.error(error); }
 
@@ -132,7 +133,7 @@ router.put('/:albumId', (req, res, next) => {
 })
 
 // DELETE ALBUM
-router.delete('/:albumId', (req, res, next) => {
+router.delete('/:albumId', authenticate, (req, res, next) => {
   const id = req.params.albumId;
   Album.remove({_id: id})
   .exec()

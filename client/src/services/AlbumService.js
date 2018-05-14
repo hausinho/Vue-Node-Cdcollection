@@ -19,5 +19,9 @@ export default {
 
   deleteAlbum (id) {
     return Api().delete('albums/' + id)
+  },
+
+  login (params) {
+    return Api().get('user/login', params)
   }  
 }

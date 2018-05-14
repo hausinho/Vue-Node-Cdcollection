@@ -13,6 +13,7 @@ app.use(cors());
 // }));
 
 const albumRoutes = require('./routes/albums');
+const userRoutes = require('./routes/user');
 
 mongoose.connect('mongodb://st-th:'+ process.env.MONGO_PW +'@motuapi-shard-00-00-raba2.mongodb.net:27017,motuapi-shard-00-01-raba2.mongodb.net:27017,motuapi-shard-00-02-raba2.mongodb.net:27017/test?ssl=true&replicaSet=MotuAPI-shard-0&authSource=admin'
 );
@@ -22,6 +23,7 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
 app.use('/albums', albumRoutes);
+app.use('/user', userRoutes);
 
 
 

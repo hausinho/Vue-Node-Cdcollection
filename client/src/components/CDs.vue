@@ -9,15 +9,15 @@
           <div>
             <span>Total: {{cdCount}}</span>
           </div>
-          <div>
+          <div v-if="isLoggedIn">
             <a href="#" @click="showAdd = true">Add CD to list</a>
           </div>
-          <!-- <div v-if="isLoggedIn">
+          <div v-if="isLoggedIn">
             <a href="#" @click.prevent="logOut">Logout</a>
           </div>
           <div v-else>
             <a href="#" @click="showLogin = true">Login</a>
-          </div> -->
+          </div>
         </div> 
       </div>
     </div>
@@ -28,7 +28,7 @@
         <li v-for="(cd, index) in paginated('cds')" :key="index">
           <div class="cd-item-container" :data-id="cd._id">
             <span>{{cd.artist}} - {{cd.album}}</span>
-            <div class="cd-item-actions">
+            <div class="cd-item-actions" v-if="isLoggedIn">
               <a href="#" @click.prevent="showDeleteModal({id: cd._id, artist: cd.artist, album: cd.album})" :id="cd._id" class="delete">Delete</a>
               <a href="#" @click.prevent="showUpdateModal({id: cd._id, artist: cd.artist, album: cd.album})" :id="cd._id" class="edit">Update</a>
             </div>
@@ -42,7 +42,7 @@
       <paginate-links for="cds" :show-step-links="true" :hide-single-page="true" :async="true"></paginate-links>
     </div>
     <add-form v-if="showAdd" @close="showAdd = false"></add-form>
-    <!-- <login-modal v-if="showLogin" @close="showLogin = false"></login-modal> -->
+    <login-modal v-if="showLogin" @close="showLogin = false"></login-modal>
   </div>
   
 </template>
@@ -51,11 +51,13 @@
 import Add from './Add'
 import Delete from './Delete'
 import Edit from './Edit'
+import Login from './Login'
 
 import _ from 'lodash'
 
 import { eventBus } from '../main';
 import AlbumService from '@/services/AlbumService'
+
 export default { 
   name: 'albums',
   data () {
@@ -74,7 +76,8 @@ export default {
   components: {
     addForm: Add,
     deleteModal: Delete,
-    updateModal: Edit
+    updateModal: Edit,
+    loginModal: Login
   },
   methods: { 
 
@@ -99,11 +102,24 @@ export default {
     showUpdateModal(item) {
       this.albumToPass = item
       this.showEdit = true
-    }    
+    },
+
+    checkCurrentLogin () {
+      if (this.currentUser) {
+        // this.$router.replace(this.$route.query.redirect || '/')
+        this.isLoggedIn = true
+      } 
+    },    
+
+    logOut() {
+      delete localStorage.token
+      this.isLoggedIn = false
+    }
   },  
   created() {
     //this.fetchAll();
     this.getAlbums()
+    this.checkCurrentLogin()
   },
   updated() {
     // when cd is added
@@ -118,7 +134,18 @@ export default {
     // when cd is updated
     eventBus.$on('cd updated', (cd) => {
       this.getAlbums()
-    })     
+    })
+    
+    eventBus.$on('user logged in', (user) => {
+      this.isLoggedIn = true;
+      console.log('CDS THIS: ', this)
+    }) 
+    
+    this.checkCurrentLogin() 
+    
+    if (!localStorage.token) {
+      this.isLoggedIn = false
+    }    
 
   }
 }

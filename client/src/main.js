@@ -5,7 +5,8 @@ import App from './App'
 import router from './router'
 import VuePaginate from 'vue-paginate'
 import vueResource from 'vue-resource'
-
+import store from './store'
+import Api from './services/Api'
 
 import './css/styles.css';
 import _ from 'lodash'
@@ -22,6 +23,8 @@ export const eventBus = new Vue();
 new Vue({
   el: '#app',
   router,
+  Api,
+  store,
   components: { App },
   template: '<App/>'
 })

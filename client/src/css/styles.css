@@ -23,6 +23,14 @@ body {
   cursor: pointer;
 }
 
+.btn-regular {
+  text-decoration: underline
+}
+
+.btn-regular:hover {
+  cursor: pointer;
+}
+
 a {
   color: #2c3e50;
   font-size: 16px;

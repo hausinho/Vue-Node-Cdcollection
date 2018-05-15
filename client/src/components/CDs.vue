@@ -10,13 +10,13 @@
             <span>Total: {{cdCount}}</span>
           </div>
           <div v-if="isLoggedIn">
-            <a href="#" @click="showAdd = true">Add CD to list</a>
+            <a @click="showAdd = true" class="btn-regular">Add CD to list</a>
           </div>
           <div v-if="isLoggedIn">
-            <a href="#" @click.prevent="logOut">Logout</a>
+            <a @click.prevent="logOut" class="btn-regular">Logout</a>
           </div>
           <div v-else>
-            <a href="#" @click="showLogin = true">Login</a>
+            <a @click="showLogin = true" class="btn-regular">Login</a>
           </div>
         </div> 
       </div>
@@ -29,8 +29,8 @@
           <div class="cd-item-container" :data-id="cd._id">
             <span>{{cd.artist}} - {{cd.album}}</span>
             <div class="cd-item-actions" v-if="isLoggedIn">
-              <a href="#" @click.prevent="showDeleteModal({id: cd._id, artist: cd.artist, album: cd.album})" :id="cd._id" class="delete">Delete</a>
-              <a href="#" @click.prevent="showUpdateModal({id: cd._id, artist: cd.artist, album: cd.album})" :id="cd._id" class="edit">Update</a>
+              <a @click.prevent="showDeleteModal({id: cd._id, artist: cd.artist, album: cd.album})" :id="cd._id" class="btn-regular delete">Delete</a>
+              <a @click.prevent="showUpdateModal({id: cd._id, artist: cd.artist, album: cd.album})" :id="cd._id" class="btn-regular edit">Update</a>
             </div>
           </div>
         </li>
@@ -138,7 +138,7 @@ export default {
     
     eventBus.$on('user logged in', (user) => {
       this.isLoggedIn = true;
-      console.log('CDS THIS: ', this)
+      this.showLogin = false 
     }) 
     
     this.checkCurrentLogin() 

@@ -9,6 +9,7 @@ const Album = require('../models/album');
 router.get('/', (req, res, next) => {
   Album.find()
     .select("artist album _id")
+    .sort({'artist': 1})
     .exec()
     .then(docs => {
       const response = {

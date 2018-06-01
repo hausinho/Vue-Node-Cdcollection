@@ -12,6 +12,7 @@ app.use(cors());
 //   credentials: true
 // }));
 
+// configure routes
 const albumRoutes = require('./routes/albums');
 const userRoutes = require('./routes/user');
 
